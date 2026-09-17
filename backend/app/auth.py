@@ -4,7 +4,12 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import jwt, JWTError
 import hashlib
 
-SECRET_KEY = "darukaa-demo-secret"
+import os
+
+SECRET_KEY = os.getenv(
+    "SECRET_KEY",
+    "darukaa-demo-secret"
+)
 ALGORITHM = "HS256"
 
 
