@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgis/postgis:16-3.4
+    container_name: darukaa-postgres
+    environment:
+      POSTGRES_USER: darukaa
+      POSTGRES_PASSWORD: darukaa
+      POSTGRES_DB: darukaa
+    ports:
+      - "5433:5432"
+    volumes:
+      - darukaa_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  darukaa_postgres_data:
