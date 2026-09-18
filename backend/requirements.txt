@@ -7,3 +7,4 @@ passlib[bcrypt]
 python-multipart
 geoalchemy2
 shapely
+python-dotenv

@@ -8,8 +8,7 @@ import SiteDetails from "./SiteDetails";
 import "./style.css";
 
 
-const API = "http://localhost:8000";
-axios.interceptors.request.use((config) => {
+const API = import.meta.env.VITE_API_URL;   axios.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
 
   if (token) {
