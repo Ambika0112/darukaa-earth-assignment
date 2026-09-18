@@ -1,71 +1,149 @@
-# Darukaa Earth
 
-A simple full-stack geospatial dashboard for managing carbon and biodiversity projects.
+# Darukaa.Earth
 
-## Features
+Darukaa.Earth is a full-stack web application for managing carbon and biodiversity projects and their geographical sites.
 
-- User registration and login
-- Project creation
-- Geographical site storage using PostGIS
-- Polygon/GeoJSON support
-- Site area calculation
-- React dashboard
-- GitHub Actions CI
+The main idea is simple:
 
-## Architecture
+- Create a project
+- Add sites to the project by drawing polygons on a map
+- Store the geographical data in PostgreSQL/PostGIS
+- View all sites on a map
+- Open a site and view its analytics
 
-React frontend -> FastAPI backend -> PostgreSQL/PostGIS
+## Live Demo
 
-## Database
+Frontend: https://darukaa-earth-assignment-bay.vercel.app
 
-### users
-Stores login information.
+Backend: https://darukaa-earth-assignment-api.onrender.com
 
-### projects
-Stores environmental projects.
+API Docs: https://darukaa-earth-assignment-api.onrender.com/docs
 
-### sites
-Stores sites belonging to projects. The `geometry` column stores a PostGIS polygon.
-
-### site_analytics
-Stores historical carbon and biodiversity values.
-
-## Local setup
-
-### Database
-
-```bash
-docker compose up -d
-```
-
-PostgreSQL is available on port 5433 on the host.
-
-### Backend
-
-```bash
-cd backend
-python -m venv venv
-venv\Scripts\activate
-pip install -r requirements.txt
-uvicorn app.main:app --reload
-```
-
-API docs:
-
-http://localhost:8000/docs
+## Tech Stack
 
 ### Frontend
 
-```bash
-cd frontend
-npm install
-npm run dev
+- React
+- Vite
+- Mapbox GL JS
+- Mapbox Draw
+- Chart.js
+- Axios
+
+### Backend
+
+- Python
+- FastAPI
+- SQLAlchemy
+- JWT Authentication
+
+### Database
+
+- PostgreSQL
+- PostGIS
+
+### Deployment
+
+- Vercel for frontend
+- Render for backend and database
+- GitHub Actions for CI
+
+## Main Features
+
+- User registration and login
+- JWT based authentication
+- Create projects
+- View projects
+- Add multiple sites to a project
+- Draw site boundaries using Mapbox
+- Store polygons using PostGIS
+- Calculate site area in hectares
+- View all saved sites on a map
+- View site analytics using charts
+
+## How It Works
+
+The frontend communicates with the FastAPI backend using REST APIs.
+
+The backend stores normal application data in PostgreSQL. Site polygons are stored using PostGIS.
+
+When a user draws a polygon on the map, the polygon is sent to the backend as GeoJSON. The backend converts it into a PostGIS geometry and stores it in the database.
+
+The site area is calculated from the stored geometry.
+
+For analytics, the project uses demo/mock data to show carbon and biodiversity changes over time. The challenge allows the use of mock datasets.
+
+## Database
+
+The main tables are:
+
+### users
+
+Stores registered users.
+
+- id
+- email
+- password_hash
+
+### projects
+
+Stores projects.
+
+- id
+- name
+- description
+
+### sites
+
+Stores geographical sites.
+
+- id
+- project_id
+- name
+- description
+- geometry
+- area_hectares
+
+### site_analytics
+
+Stores analytics data for sites.
+
+- id
+- site_id
+- year
+- carbon
+- biodiversity
+
+A project can have multiple sites.
+
+## Project Structure
+
+```text
+darukaa-earth/
+│
+├── backend/
+│   └── app/
+│       ├── auth.py
+│       ├── database.py
+│       ├── models.py
+│       ├── schemas.py
+│       ├── main.py
+│       └── routers/
+│           ├── auth.py
+│           ├── projects.py
+│           └── sites.py
+│
+├── frontend/
+│   └── src/
+│       ├── main.jsx
+│       ├── Map.jsx
+│       ├── SiteDetails.jsx
+│       └── style.css
+│
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+│
+├── docker-compose.yml
+└── README.md
 ```
-
-## Notes
-
-The map integration uses Mapbox and requires a Mapbox access token.
-
-## Trade-offs
-
-The project intentionally uses a simple monolithic FastAPI backend because the challenge is a small application. PostgreSQL and PostGIS are used together so normal project data and geographical data can stay in one database.
