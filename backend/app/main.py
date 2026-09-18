@@ -10,8 +10,10 @@ app = FastAPI(title="Darukaa Earth API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"
-        "https://darukaa-earth-assignment-bay.vercel.app",],
+    allow_origins=[
+        "http://localhost:5173",
+        "https://darukaa-earth-assignment-bay.vercel.app",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -20,8 +22,3 @@ app.add_middleware(
 app.include_router(auth.router)
 app.include_router(projects.router)
 app.include_router(sites.router)
-
-
-@app.get("/health")
-def health():
-    return {"status": "ok"}
